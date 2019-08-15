@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+</head>
+<body>
+
+
+    <div class="clock">
+      <div class="clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+
+
+  <style>
+    html {
+      background: #018DED url(http://unsplash.it/1500/1000?image=881&blur=5);
+      background-size: cover;
+      font-family: 'helvetica neue';
+      text-align: center;
+      font-size: 10px;
+    }
+
+    body {
+      margin: 0;
+      font-size: 2rem;
+      display: flex;
+      flex: 1;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .clock {
+      width: 30rem;
+      height: 30rem;
+      border: 20px solid white;
+      border-radius: 50%;
+      margin: 50px auto;
+      position: relative;
+      padding: 2rem;
+      box-shadow:
+        0 0 0 4px rgba(0,0,0,0.1),
+        inset 0 0 0 3px #EFEFEF,
+        inset 0 0 10px black,
+        0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px); /* account for the height of the clock hands */
+    }
+
+    .hand {
+      width: 50%;
+      height: 6px;
+      background: black;
+      position: absolute;
+      top: 50%;
+      /* transform: rotate(45deg); */
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0, 3.04, 0, 1.1);
+    }
+    .second-hand {
+      background: red;
+    }
+    .min-hand {
+      background: white;
+    }
+
+  </style>
+  
+  <script>
+    const secondHand = document.querySelector('.second-hand');
+    const minsHand = document.querySelector('.min-hand');
+    const hoursHand = document.querySelector('.hour-hand');
+
+    //create a function to start date
+    function setDate() {
+      //start now date
+      const now = new Date();
+
+
+      //========second hand============
+      //getSeconds function is a built-in function
+      const seconds = now.getSeconds();
+      //seconds now provide with the current second of every minute
+      console.log(seconds);
+      //need to turn each second into a degree
+      //turn each sec into base 100
+      //seconds/60 gives us the percentage 60s/60deg = 1s/deg
+      //multiply 1s/deg * 360s = 360 degrees + 90 because we offset rotate to 90 degs
+      const secondsDegrees = ((seconds/60) * 360 ) + 90 ;
+      console.log(secondsDegrees);
+      secondHand.style.transform = `rotate(${secondsDegrees}deg`;
+
+
+      //======min hand================
+      const mins = now.getMinutes();
+      const minsDegrees = ((mins/60) * 360) + 90;
+      minsHand.style.transform = `rotate(${minsDegrees}deg`;
+      console.log(minsDegrees);
+        
+
+      //=======hour hand==============
+      const hours = now.getHours();
+      const hoursDegrees = ((hours/12) * 360) + 90;
+      hoursHand.style.transform = `rotate(${hoursDegrees}deg`;
+      console.log(hoursDegrees);
+      
+    }
+
+    //run every sec
+    setInterval(setDate, 1000);
+    
+  </script>
+</body>
+</html>
